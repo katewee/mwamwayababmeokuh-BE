@@ -2,24 +2,25 @@ package com.mwamwayababmeokuh.mwamwa.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "users")
-public class Member extends BaseTimeEntity {
+public class Member{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UID")
-    private int id;
+    private long id;
     private String nickname;
     private String email;
     private String pw;
+    @Column(name = "PROFILEIMG")
+    @ColumnDefault("defaultImg.jpg")
     private String profileImg;
     private String bio;
     private String role;
