@@ -1,7 +1,7 @@
 package com.mwamwayababmeokuh.mwamwa.service;
 
 import com.mwamwayababmeokuh.mwamwa.domain.Member;
-import com.mwamwayababmeokuh.mwamwa.domain.MemberRepository;
+import com.mwamwayababmeokuh.mwamwa.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

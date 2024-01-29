@@ -1,7 +1,7 @@
 package com.mwamwayababmeokuh.mwamwa.service;
 
 import com.mwamwayababmeokuh.mwamwa.domain.Board;
-import com.mwamwayababmeokuh.mwamwa.domain.BoardRepository;
+import com.mwamwayababmeokuh.mwamwa.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

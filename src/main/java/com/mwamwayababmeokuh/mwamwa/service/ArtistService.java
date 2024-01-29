@@ -1,7 +1,7 @@
 package com.mwamwayababmeokuh.mwamwa.service;
 
 import com.mwamwayababmeokuh.mwamwa.domain.Artist;
-import com.mwamwayababmeokuh.mwamwa.domain.ArtistRepository;
+import com.mwamwayababmeokuh.mwamwa.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
