@@ -1,14 +1,21 @@
 package com.mwamwayababmeokuh.mwamwa.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "hashtags")
-public class HashtagEntity {
+@ToString
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Hashtag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int hid;
+    private long hid;
     private String hashtag;
 
 }
