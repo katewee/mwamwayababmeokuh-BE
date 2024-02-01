@@ -8,6 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 public class HashtagService {
@@ -21,6 +24,21 @@ public class HashtagService {
         log.info("entity: " + entity.toString());
         Hashtag result = hashtagRepository.save(entity);
         return modelMapper.map(result, HashtagDTO.class);
+    }
+
+    public List<HashtagDTO> find(HashtagDTO hashtagDTO) {
+        log.info("find()");
+        log.info(hashtagDTO.toString());
+        String searchKeyword = hashtagDTO.getHashtag();
+
+        List<HashtagDTO> list = hashtagRepository.findByHashtagContaining(searchKeyword).stream().map(m -> new HashtagDTO(m.getHid(), m.getHashtag())).collect(Collectors.toList());
+        log.info(list.toString());
+        return list;
+    }
+
+    public void deleteById(HashtagDTO hashtagDTO) {
+        log.info("deleteById()" + hashtagDTO.toString());
+        hashtagRepository.deleteById(hashtagDTO.getHid());
     }
 
 }
