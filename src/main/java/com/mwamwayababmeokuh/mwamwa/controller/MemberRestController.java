@@ -1,6 +1,7 @@
 package com.mwamwayababmeokuh.mwamwa.controller;
 
 import com.mwamwayababmeokuh.mwamwa.domain.Member;
+import com.mwamwayababmeokuh.mwamwa.domain.MemberDTO;
 import com.mwamwayababmeokuh.mwamwa.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,31 +20,30 @@ public class MemberRestController {
 
     @PostMapping("/auth/register")
     @ResponseBody
-    public Member register(Member member) {
-        return memberService.save(member);
+    public MemberDTO register(MemberDTO memberDTO) {
+        return memberService.save(memberDTO);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/{uid}")
     @ResponseBody
-    public Member findOne(@PathVariable String id) {
-        Member member = new Member();
-        member.setId(Long.parseLong(id));
-        Optional<Member> optionalMember = memberService.findById(member);
-        return optionalMember.orElseThrow(NoSuchElementException::new);
+    public MemberDTO findOne(@PathVariable String uid) {
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setUid(Long.parseLong(uid));
+        return memberService.findById(memberDTO);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/users/{uid}")
     @ResponseBody
-    public Member update(@PathVariable String id, Member member) {
-        return memberService.save(member);
+    public MemberDTO update(@PathVariable String uid, MemberDTO memberDTO) {
+        return memberService.save(memberDTO);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users/{uid}")
     @ResponseBody
-    public Map<String, String> remove(@PathVariable String id) {
-        Member member = new Member();
-        member.setId(Long.parseLong(id));
-        memberService.deleteById(member);
+    public Map<String, String> remove(@PathVariable String uid) {
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setUid(Long.parseLong(uid));
+        memberService.deleteById(memberDTO);
 
         Map<String, String> map = new HashMap<>();
         map.put("result", "OK");

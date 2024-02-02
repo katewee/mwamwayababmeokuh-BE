@@ -1,30 +1,42 @@
 package com.mwamwayababmeokuh.mwamwa.service;
 
 import com.mwamwayababmeokuh.mwamwa.domain.Member;
+import com.mwamwayababmeokuh.mwamwa.domain.MemberDTO;
 import com.mwamwayababmeokuh.mwamwa.repository.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class MemberService {
 
     @Autowired
     MemberRepository memberRepository;
+    private final ModelMapper modelMapper = new ModelMapper();
 
-    public Member save(Member member) {
-        member.setRole("general");
-        memberRepository.save(member);
-        return member;
+    public MemberDTO save(MemberDTO memberDTO) {
+        log.info("save()" + memberDTO.toString());
+        Member entity = modelMapper.map(memberDTO, Member.class);
+        Member result = memberRepository.save(entity);
+        return modelMapper.map(result, MemberDTO.class);
     }
 
 
-    public Optional<Member> findById(Member member) {
-        return memberRepository.findById(member.getId());
+    public MemberDTO findById(MemberDTO memberDTO) {
+        log.info("findById()" + memberDTO.toString());
+        Member entity = modelMapper.map(memberDTO, Member.class);
+        Optional<Member> optionalMember = memberRepository.findById(entity.getUid());
+        return modelMapper.map(optionalMember.orElseThrow(NoSuchElementException::new), MemberDTO.class);
     }
 
-    public void deleteById(Member member) {
-        memberRepository.deleteById(member.getId());
+    public void deleteById(MemberDTO memberDTO) {
+        log.info("deleteById()" + memberDTO.toString());
+        Member entity = modelMapper.map(memberDTO, Member.class);
+        memberRepository.deleteById(entity.getUid());
     }
 }
