@@ -26,6 +26,11 @@ public class MemberService {
         return modelMapper.map(result, MemberDTO.class);
     }
 
+    public MemberDTO validateEmail(MemberDTO memberDTO) {
+        log.info("validateEmail()" + memberDTO.toString());
+        Optional<Member> optionalMember = memberRepository.findByEmail(memberDTO.getEmail());
+        return modelMapper.map(optionalMember.orElseThrow(NoSuchElementException::new), MemberDTO.class);
+    }
 
     public MemberDTO findById(MemberDTO memberDTO) {
         log.info("findById()" + memberDTO.toString());
