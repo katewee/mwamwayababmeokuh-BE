@@ -24,6 +24,20 @@ public class MemberRestController {
         return memberService.save(memberDTO);
     }
 
+    @GetMapping("/check-email")
+    @ResponseBody
+    public Map<String, String> validateEmail(MemberDTO memberDTO) {
+        Map<String, String> map = new HashMap<>();
+        try {
+            memberService.validateEmail(memberDTO);
+        } catch (NoSuchElementException e) {
+            map.put("result", "OK");
+            return map;
+        }
+        map.put("result", "existing email");
+        return map;
+    }
+
     @GetMapping("/users/{uid}")
     @ResponseBody
     public MemberDTO findOne(@PathVariable String uid) {
