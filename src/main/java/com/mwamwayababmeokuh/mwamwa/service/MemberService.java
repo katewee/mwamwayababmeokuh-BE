@@ -49,7 +49,7 @@ public class MemberService {
 
     public MemberDTO updatePassword(MemberDTO memberDTO) {
         log.info("updatePassword()" + memberDTO.toString());
-        Optional<Member> optionalMember = memberRepository.findById(memberDTO.getUid());
+        Optional<Member> optionalMember = memberRepository.findByEmail(memberDTO.getEmail());
         Member entity = optionalMember.orElseThrow(NoSuchElementException::new);
         entity.setPw(memberDTO.getPw());
         return modelMapper.map(entity, MemberDTO.class);
