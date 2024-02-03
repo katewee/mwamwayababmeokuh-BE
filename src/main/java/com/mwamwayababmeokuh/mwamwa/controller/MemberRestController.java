@@ -64,4 +64,10 @@ public class MemberRestController {
         return map;
     }
 
+    @PostMapping("/update-password")
+    @ResponseBody
+    public MemberDTO updatePassword(MemberDTO memberDTO) {
+        return memberService.updatePassword(memberDTO);
+    }
+
 }

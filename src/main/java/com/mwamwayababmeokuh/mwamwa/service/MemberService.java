@@ -7,12 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 @Slf4j
+@Transactional
 public class MemberService {
 
     @Autowired
@@ -43,5 +45,13 @@ public class MemberService {
         log.info("deleteById()" + memberDTO.toString());
         Member entity = modelMapper.map(memberDTO, Member.class);
         memberRepository.deleteById(entity.getUid());
+    }
+
+    public MemberDTO updatePassword(MemberDTO memberDTO) {
+        log.info("updatePassword()" + memberDTO.toString());
+        Optional<Member> optionalMember = memberRepository.findById(memberDTO.getUid());
+        Member entity = optionalMember.orElseThrow(NoSuchElementException::new);
+        entity.setPw(memberDTO.getPw());
+        return modelMapper.map(entity, MemberDTO.class);
     }
 }
