@@ -16,6 +16,5 @@ public class Artist {
     @Column(name = "AID")
     private long id;
     private String name;
-    private String aimg;
 
 }
