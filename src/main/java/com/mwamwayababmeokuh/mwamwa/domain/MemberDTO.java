@@ -13,7 +13,6 @@ public class MemberDTO {
     private String nickname;
     private String email;
     private String pw;
-    private String profileImg;
     private String bio;
     private String role;
 
