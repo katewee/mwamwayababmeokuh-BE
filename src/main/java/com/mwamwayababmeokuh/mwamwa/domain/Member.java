@@ -23,9 +23,6 @@ public class Member{
     private String nickname;
     private String email;
     private String pw;
-    @Column(name = "PROFILEIMG")
-    @ColumnDefault("defaultImg.jpg")
-    private String profileImg;
     private String bio;
     private String role;
 
