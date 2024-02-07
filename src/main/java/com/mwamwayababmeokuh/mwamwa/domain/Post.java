@@ -1,7 +1,6 @@
 package com.mwamwayababmeokuh.mwamwa.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,20 +9,22 @@ import java.sql.Timestamp;
 @Table(name = "posts")
 @Getter
 @Setter
-public class Board {
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pid")
-    private long id;
+    private long pid;
     private long aid;
     private String hashtag;
     private String content;
-    private String pimg;
     private double lat;
     private double lng;
     private long writer;
-    @Column(name = "CREATEDAT")
+    @Column(name = "CREATEDAT", insertable = false, updatable = false)
     private Timestamp createdAt;
 
 }
