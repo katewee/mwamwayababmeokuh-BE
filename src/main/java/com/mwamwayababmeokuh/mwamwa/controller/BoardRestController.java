@@ -1,13 +1,11 @@
 package com.mwamwayababmeokuh.mwamwa.controller;
 
-import com.mwamwayababmeokuh.mwamwa.domain.Board;
+import com.mwamwayababmeokuh.mwamwa.domain.Post;
+import com.mwamwayababmeokuh.mwamwa.domain.PostDTO;
 import com.mwamwayababmeokuh.mwamwa.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,20 +18,24 @@ public class BoardRestController {
 
     @PostMapping("/boards/posts")
     @ResponseBody
-    public Board save(Board board) {
-        return boardService.save(board);
+    public PostDTO save(PostDTO postDTO) {
+        return boardService.save(postDTO);
     }
 
-    @DeleteMapping("/boards/posts/{id}")
+    @DeleteMapping("/boards/posts/{pid}")
     @ResponseBody
-    public Map<String, String> remove(@PathVariable String id) {
-        Board board = new Board();
-        board.setId(Long.parseLong(id));
-        boardService.deleteById(board);
+    public Map<String, String> remove(@PathVariable String pid) {
+        boardService.deleteById(Long.parseLong(pid));
 
         Map<String, String> map = new HashMap<>();
         map.put("result", "OK");
         return map;
+    }
+
+    @PutMapping("/boards/posts")
+    @ResponseBody
+    public PostDTO update(PostDTO postDTO) {
+        return boardService.update(postDTO);
     }
 
 }
