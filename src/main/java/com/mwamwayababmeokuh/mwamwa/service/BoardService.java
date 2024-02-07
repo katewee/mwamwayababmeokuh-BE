@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -45,5 +46,13 @@ public class BoardService {
         post.setLng(postDTO.getLng());
         post.setLat(postDTO.getLat());
         return modelMapper.map(post, PostDTO.class);
+    }
+
+    public List<PostDTO> findAllByWriter(long uid) {
+        log.info("findAllByWriter()" + uid);
+        List<PostDTO> list = boardRepository.findAllByWriterOrderByCreatedAtDesc(uid).stream()
+                .map(m -> modelMapper.map(m, PostDTO.class))
+                .collect(Collectors.toList());
+        return list;
     }
 }
