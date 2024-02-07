@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -36,6 +37,12 @@ public class BoardRestController {
     @ResponseBody
     public PostDTO update(PostDTO postDTO) {
         return boardService.update(postDTO);
+    }
+
+    @GetMapping("/boards/posts/{uid}")
+    @ResponseBody
+    public List<PostDTO> findAllByUid(@PathVariable String uid) {
+        return boardService.findAllByWriter(Long.parseLong(uid));
     }
 
 }
