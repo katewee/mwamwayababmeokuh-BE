@@ -29,7 +29,7 @@ public class MemberRestController {
     public Map<String, String> validateEmail(MemberDTO memberDTO) {
         Map<String, String> map = new HashMap<>();
         try {
-            memberService.validateEmail(memberDTO);
+            MemberDTO memberDTO1 = memberService.validateEmail(memberDTO);
         } catch (NoSuchElementException e) {
             map.put("result", "OK");
             return map;
