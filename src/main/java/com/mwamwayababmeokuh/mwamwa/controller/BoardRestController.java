@@ -1,8 +1,10 @@
 package com.mwamwayababmeokuh.mwamwa.controller;
 
+import com.mwamwayababmeokuh.mwamwa.domain.LikeDTO;
 import com.mwamwayababmeokuh.mwamwa.domain.Post;
 import com.mwamwayababmeokuh.mwamwa.domain.PostDTO;
 import com.mwamwayababmeokuh.mwamwa.service.BoardService;
+import com.mwamwayababmeokuh.mwamwa.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +45,18 @@ public class BoardRestController {
     @ResponseBody
     public List<PostDTO> findAllByUid(@PathVariable String uid) {
         return boardService.findAllByWriter(Long.parseLong(uid));
+    }
+
+    @GetMapping("/boards/onepost/{pid}")
+    @ResponseBody
+    public PostDTO findById(@PathVariable String pid) {
+        return boardService.findById(Long.parseLong(pid));
+    }
+
+    @GetMapping("/boards/posts/liked-posts")
+    @ResponseBody
+    public List<PostDTO> findAllLikeByUid(LikeDTO likeDTO) {
+        return boardService.findAllSqlByUid(likeDTO);
     }
 
 }

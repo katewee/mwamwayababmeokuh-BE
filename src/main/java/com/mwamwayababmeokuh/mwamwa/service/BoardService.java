@@ -1,5 +1,6 @@
 package com.mwamwayababmeokuh.mwamwa.service;
 
+import com.mwamwayababmeokuh.mwamwa.domain.LikeDTO;
 import com.mwamwayababmeokuh.mwamwa.domain.Post;
 import com.mwamwayababmeokuh.mwamwa.domain.PostDTO;
 import com.mwamwayababmeokuh.mwamwa.repository.BoardRepository;
@@ -54,5 +55,20 @@ public class BoardService {
                 .map(m -> modelMapper.map(m, PostDTO.class))
                 .collect(Collectors.toList());
         return list;
+    }
+
+    public PostDTO findById(long pid) {
+        log.info("findById()" + pid);
+        Optional<Post> optionalPost = boardRepository.findById(pid);
+        Post post = optionalPost.orElseThrow(NoSuchElementException::new);
+        return modelMapper.map(post, PostDTO.class);
+    }
+
+    public List<PostDTO> findAllSqlByUid(LikeDTO likeDTO) {
+        log.info("findAllLikeSqlByUid()" + likeDTO.toString());
+        List<Post> list = boardRepository.selectSQLByUid(likeDTO.getUid());
+        List<PostDTO> dtoList = list.stream().map(m -> modelMapper.map(m, PostDTO.class))
+                .collect(Collectors.toList());
+        return dtoList;
     }
 }
