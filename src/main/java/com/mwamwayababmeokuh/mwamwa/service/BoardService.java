@@ -71,4 +71,12 @@ public class BoardService {
                 .collect(Collectors.toList());
         return dtoList;
     }
+
+    public List<String> selectHashtagWithRankSql() {
+        log.info("selectHashtagWithRankSql()");
+//        List<PostDTO> list = boardRepository.selectHashtagSQL().stream()
+//                .map(m -> modelMapper.map(m, PostDTO.class)).collect(Collectors.toList());
+        List<String> list = boardRepository.selectHashtagSQL();
+        return list;
+    }
 }

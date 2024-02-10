@@ -59,4 +59,10 @@ public class BoardRestController {
         return boardService.findAllSqlByUid(likeDTO);
     }
 
+    @GetMapping("/boards/rankings")
+    @ResponseBody
+    public List<String> rankHashtag() {
+        return boardService.selectHashtagWithRankSql();
+    }
+
 }
