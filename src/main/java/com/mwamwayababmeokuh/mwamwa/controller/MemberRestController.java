@@ -70,4 +70,14 @@ public class MemberRestController {
         return memberService.updatePassword(memberDTO);
     }
 
+    @PostMapping("/auth/email")
+    @ResponseBody
+    public Map<String, String> sendMail(MemberDTO memberDTO) {
+        memberService.sendCodeToEmail(memberDTO);
+        Map<String, String> map = new HashMap<>();
+        map.put("result", "OK");
+
+        return map;
+    }
+
 }

@@ -54,4 +54,9 @@ public class MemberService {
         entity.setPw(memberDTO.getPw());
         return modelMapper.map(entity, MemberDTO.class);
     }
+
+    public void sendCodeToEmail(MemberDTO memberDTO) {
+        log.info("sendCodeToEmail()" + memberDTO.toString());
+
+    }
 }
