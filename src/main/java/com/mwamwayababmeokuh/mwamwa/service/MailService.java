@@ -23,7 +23,7 @@ public class MailService {
         } catch (RuntimeException e) {
             log.debug("MailService.sendEmail exception occur toEmail: {}, " +
                     "title: {}, text: {}", toEmail, title, text);
-            throw new BusinessLogicException(ExceptionCode.UNABLE_TO_SEND_EMAIL);
+            throw e;
         }
     }
 
