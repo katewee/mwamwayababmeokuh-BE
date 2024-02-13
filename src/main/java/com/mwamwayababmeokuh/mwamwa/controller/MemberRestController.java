@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Controller
 public class MemberRestController {
@@ -88,6 +89,38 @@ public class MemberRestController {
         Map<String, Boolean> map = new HashMap<>();
         map.put("result", result);
 
+        return map;
+    }
+
+    @PostMapping("/auth/login")
+    @ResponseBody
+    public Map<String, String> login(HttpServletRequest httpServletRequest, MemberDTO memberDTO) {
+        MemberDTO result = memberService.login(memberDTO);
+        Map<String, String> map = new HashMap<>();
+
+        if(result == null) {
+            map.put("result", "fail");
+            return map;
+        }
+
+        httpServletRequest.getSession().invalidate();
+        HttpSession httpSession = httpServletRequest.getSession(true);
+        httpSession.setAttribute("uid", result.getUid());
+
+        map.put("result", "success");
+        return map;
+    }
+
+    @GetMapping("/auth/logout")
+    @ResponseBody
+    public Map<String, String> logout(HttpServletRequest httpServletRequest) {
+        Map<String, String> map = new HashMap<>();
+        HttpSession httpSession = httpServletRequest.getSession(false);
+        if(httpSession != null) {
+            httpSession.invalidate();
+        }
+
+        map.put("result", "OK");
         return map;
     }
 

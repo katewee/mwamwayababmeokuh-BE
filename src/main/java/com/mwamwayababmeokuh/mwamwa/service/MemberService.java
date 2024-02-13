@@ -100,4 +100,15 @@ public class MemberService {
         }
     }
 
+    public MemberDTO login(MemberDTO memberDTO) {
+        log.info("login()" + memberDTO.toString());
+        Optional<Member> optionalMember = memberRepository.findByEmailAndPw(memberDTO.getEmail(), memberDTO.getPw());
+
+        if(optionalMember.isEmpty()){
+            return null;
+        }else {
+            Member member = optionalMember.get();
+            return modelMapper.map(member, MemberDTO.class);
+        }
+    }
 }
