@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -72,10 +73,20 @@ public class MemberRestController {
 
     @PostMapping("/auth/email")
     @ResponseBody
-    public Map<String, String> sendMail(MemberDTO memberDTO) {
+    public Map<String, String> sendMail(MemberDTO memberDTO) throws NoSuchAlgorithmException {
         memberService.sendCodeToEmail(memberDTO);
         Map<String, String> map = new HashMap<>();
         map.put("result", "OK");
+
+        return map;
+    }
+
+    @PostMapping("/check-verification-code")
+    @ResponseBody
+    public Map<String, Boolean> verifyCode(String email, String authCode) {
+        boolean result = memberService.verifyCode(email, authCode);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("result", result);
 
         return map;
     }

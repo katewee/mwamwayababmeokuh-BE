@@ -2,6 +2,7 @@ package com.mwamwayababmeokuh.mwamwa.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class MailService {
 
     private final JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String fromEmail;
 
     public void sendEmail(String toEmail, String title, String text) {
         log.info("sendEmail()" + toEmail);
@@ -33,6 +37,7 @@ public class MailService {
         message.setTo(toEmail);
         message.setSubject(title);
         message.setText(text);
+        message.setFrom(fromEmail);
 
         return message;
     }
