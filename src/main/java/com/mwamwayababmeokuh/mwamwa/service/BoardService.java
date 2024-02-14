@@ -1,14 +1,14 @@
 package com.mwamwayababmeokuh.mwamwa.service;
 
-import com.mwamwayababmeokuh.mwamwa.domain.LikeDTO;
-import com.mwamwayababmeokuh.mwamwa.domain.Post;
-import com.mwamwayababmeokuh.mwamwa.domain.PostDTO;
+import com.mwamwayababmeokuh.mwamwa.domain.*;
 import com.mwamwayababmeokuh.mwamwa.repository.BoardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,5 +78,28 @@ public class BoardService {
 //                .map(m -> modelMapper.map(m, PostDTO.class)).collect(Collectors.toList());
         List<String> list = boardRepository.selectHashtagSQL();
         return list;
+    }
+
+    public List<PostDTO> findByAid(List<ArtistDTO> artistDTOList) {
+        log.info("findAllByAid()" + artistDTOList.toString());
+        List<Long> aidList = new ArrayList<>();
+        for (ArtistDTO artistDTO : artistDTOList) {
+            aidList.add(artistDTO.getAid());
+        }
+
+        List<Post> list = boardRepository.findByAidInOrderByCreatedAtDesc(aidList);
+        return list.stream().map(m -> modelMapper.map(m, PostDTO.class)).collect(Collectors.toList());
+    }
+
+    public PostSearchDTO findPosts(String searchKeyword) {
+        log.info("findPosts()" + searchKeyword);
+        List<Post> byHashtag = boardRepository.findByHashtagContaining(searchKeyword);
+        List<Post> byArtist = boardRepository.selectSQLByArtist(searchKeyword);
+        PostSearchDTO postSearchDTO = new PostSearchDTO(
+                byHashtag.stream().map(m -> modelMapper.map(m, PostDTO.class)).collect(Collectors.toList()),
+                byArtist.stream().map(m -> modelMapper.map(m, PostDTO.class)).collect(Collectors.toList())
+        );
+
+        return postSearchDTO;
     }
 }
