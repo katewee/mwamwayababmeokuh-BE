@@ -68,7 +68,7 @@ public class MemberRestController {
     @PutMapping("/users/{uid}")
     @ResponseBody
     public MemberDTO update(@PathVariable String uid, @RequestBody MemberDTO memberDTO) {
-        return memberService.save(memberDTO);
+        return memberService.updateMember(memberDTO);
     }
 
     @DeleteMapping("/users/{uid}")
