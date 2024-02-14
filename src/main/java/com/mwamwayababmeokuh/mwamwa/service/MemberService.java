@@ -111,4 +111,13 @@ public class MemberService {
             return modelMapper.map(member, MemberDTO.class);
         }
     }
+
+    public MemberDTO updateMember(MemberDTO memberDTO) {
+        log.info("updateMember()" + memberDTO.toString());
+        Optional<Member> optionalMember = memberRepository.findById(memberDTO.getUid());
+        Member entity = optionalMember.orElseThrow(NoSuchElementException::new);
+        entity.setBio(memberDTO.getBio());
+        entity.setNickname(memberDTO.getNickname());
+        return modelMapper.map(entity, MemberDTO.class);
+    }
 }
