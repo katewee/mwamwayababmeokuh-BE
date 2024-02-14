@@ -1,8 +1,6 @@
 package com.mwamwayababmeokuh.mwamwa.controller;
 
-import com.mwamwayababmeokuh.mwamwa.domain.LikeDTO;
-import com.mwamwayababmeokuh.mwamwa.domain.Post;
-import com.mwamwayababmeokuh.mwamwa.domain.PostDTO;
+import com.mwamwayababmeokuh.mwamwa.domain.*;
 import com.mwamwayababmeokuh.mwamwa.service.BoardService;
 import com.mwamwayababmeokuh.mwamwa.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +61,18 @@ public class BoardRestController {
     @ResponseBody
     public List<String> rankHashtag() {
         return boardService.selectHashtagWithRankSql();
+    }
+
+    @GetMapping("/boards/posts")
+    @ResponseBody
+    public List<PostDTO> findByAid(@RequestBody List<ArtistDTO> artistDTOList) {
+        return boardService.findByAid(artistDTOList);
+    }
+
+    @GetMapping("/boards/search-results")
+    @ResponseBody
+    public PostSearchDTO findPosts(String searchKeyword) {
+        return boardService.findPosts(searchKeyword);
     }
 
 }

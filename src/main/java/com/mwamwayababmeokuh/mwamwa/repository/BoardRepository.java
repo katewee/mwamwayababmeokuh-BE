@@ -16,4 +16,11 @@ public interface BoardRepository extends JpaRepository<Post, Long> {
 
     @Query(value = "select hashtag from (select * from posts where date_format(createdAt, '%y-%m-%d') = Date_add(curdate(), interval -1 day)) as p group by hashtag order by count(*) desc limit 0, 10;", nativeQuery = true)
     List<String> selectHashtagSQL();
+
+    List<Post> findByAidInOrderByCreatedAtDesc(List<Long> aidList);
+
+    List<Post> findByHashtagContaining(String searchKeyword);
+
+    @Query(value = "select * from posts p join artists a on p.aid = a.aid where a.name like %:searchKeyword% order by createdat desc", nativeQuery = true)
+    List<Post> selectSQLByArtist(@Param(value = "searchKeyword") String searchKeyword);
 }
