@@ -6,6 +6,7 @@ import com.mwamwayababmeokuh.mwamwa.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -16,13 +17,13 @@ public class ReportRestController {
 
     @PostMapping("/users/report")
     @ResponseBody
-    public ReportUserDTO reportUser(ReportUserDTO reportUserDTO) {
+    public ReportUserDTO reportUser(@RequestBody ReportUserDTO reportUserDTO) {
         return reportService.saveUserReport(reportUserDTO);
     }
 
     @PostMapping("/boards/posts/report")
     @ResponseBody
-    public ReportPostDTO reportPost(ReportPostDTO reportPostDTO) {
+    public ReportPostDTO reportPost(@RequestBody ReportPostDTO reportPostDTO) {
         return reportService.savePostReport(reportPostDTO);
     }
 
