@@ -21,7 +21,7 @@ public class BoardRestController {
 
     @PostMapping("/boards/posts")
     @ResponseBody
-    public PostDTO save(PostDTO postDTO) {
+    public PostDTO save(@RequestBody PostDTO postDTO) {
         return boardService.save(postDTO);
     }
 
@@ -37,7 +37,7 @@ public class BoardRestController {
 
     @PutMapping("/boards/posts")
     @ResponseBody
-    public PostDTO update(PostDTO postDTO) {
+    public PostDTO update(@RequestBody PostDTO postDTO) {
         return boardService.update(postDTO);
     }
 

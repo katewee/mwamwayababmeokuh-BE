@@ -22,7 +22,7 @@ public class MemberRestController {
 
     @PostMapping("/auth/register")
     @ResponseBody
-    public MemberDTO register(MemberDTO memberDTO) {
+    public MemberDTO register(@RequestBody MemberDTO memberDTO) {
         return memberService.save(memberDTO);
     }
 
@@ -50,7 +50,7 @@ public class MemberRestController {
 
     @PutMapping("/users/{uid}")
     @ResponseBody
-    public MemberDTO update(@PathVariable String uid, MemberDTO memberDTO) {
+    public MemberDTO update(@PathVariable String uid, @RequestBody MemberDTO memberDTO) {
         return memberService.save(memberDTO);
     }
 
@@ -68,13 +68,13 @@ public class MemberRestController {
 
     @PostMapping("/update-password")
     @ResponseBody
-    public MemberDTO updatePassword(MemberDTO memberDTO) {
+    public MemberDTO updatePassword(@RequestBody MemberDTO memberDTO) {
         return memberService.updatePassword(memberDTO);
     }
 
     @PostMapping("/auth/email")
     @ResponseBody
-    public Map<String, String> sendMail(MemberDTO memberDTO) throws NoSuchAlgorithmException {
+    public Map<String, String> sendMail(@RequestBody MemberDTO memberDTO) throws NoSuchAlgorithmException {
         memberService.sendCodeToEmail(memberDTO);
         Map<String, String> map = new HashMap<>();
         map.put("result", "OK");
@@ -84,7 +84,7 @@ public class MemberRestController {
 
     @PostMapping("/check-verification-code")
     @ResponseBody
-    public Map<String, Boolean> verifyCode(String email, String authCode) {
+    public Map<String, Boolean> verifyCode(@RequestBody String email, @RequestBody String authCode) {
         boolean result = memberService.verifyCode(email, authCode);
         Map<String, Boolean> map = new HashMap<>();
         map.put("result", result);
@@ -94,7 +94,7 @@ public class MemberRestController {
 
     @PostMapping("/auth/login")
     @ResponseBody
-    public Map<String, String> login(HttpServletRequest httpServletRequest, MemberDTO memberDTO) {
+    public Map<String, String> login(HttpServletRequest httpServletRequest, @RequestBody MemberDTO memberDTO) {
         MemberDTO result = memberService.login(memberDTO);
         Map<String, String> map = new HashMap<>();
 

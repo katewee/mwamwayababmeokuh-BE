@@ -20,7 +20,7 @@ public class ArtistRestController {
 
     @PostMapping("/artists")
     @ResponseBody
-    public ArtistDTO save(ArtistDTO artistDTO) {
+    public ArtistDTO save(@RequestBody ArtistDTO artistDTO) {
         return artistService.save(artistDTO);
     }
 
@@ -44,7 +44,7 @@ public class ArtistRestController {
 
     @DeleteMapping("/artists/favorites")
     @ResponseBody
-    public Map<String, String> deleteFavorite(FavoriteDTO favoriteDTO) {
+    public Map<String, String> deleteFavorite(@RequestBody FavoriteDTO favoriteDTO) {
         Map<String, String> map = new HashMap<>();
         artistService.deleteFavorite(favoriteDTO);
         map.put("result", "OK");

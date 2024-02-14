@@ -4,10 +4,7 @@ import com.mwamwayababmeokuh.mwamwa.domain.LikeDTO;
 import com.mwamwayababmeokuh.mwamwa.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +18,13 @@ public class LikeRestController {
 
     @PostMapping("/boards/posts/like")
     @ResponseBody
-    public LikeDTO saveLike(LikeDTO likeDTO) {
+    public LikeDTO saveLike(@RequestBody LikeDTO likeDTO) {
         return likeService.save(likeDTO);
     }
 
     @DeleteMapping("/boards/posts/like")
     @ResponseBody
-    public Map<String, String> deleteLike(LikeDTO likeDTO) {
+    public Map<String, String> deleteLike(@RequestBody LikeDTO likeDTO) {
         likeService.delete(likeDTO);
         Map<String, String> map = new HashMap<>();
         map.put("result", "OK");
