@@ -1,7 +1,7 @@
 package com.mwamwayababmeokuh.mwamwa.controller;
 
-import com.mwamwayababmeokuh.mwamwa.domain.Member;
-import com.mwamwayababmeokuh.mwamwa.domain.MemberDTO;
+import com.mwamwayababmeokuh.mwamwa.domain.*;
+import com.mwamwayababmeokuh.mwamwa.service.ArtistService;
 import com.mwamwayababmeokuh.mwamwa.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -20,10 +21,26 @@ public class MemberRestController {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    ArtistService artistService;
+
     @PostMapping("/auth/register")
     @ResponseBody
-    public MemberDTO register(@RequestBody MemberDTO memberDTO) {
-        return memberService.save(memberDTO);
+    public LoginResultDTO register(HttpServletRequest httpServletRequest, @RequestBody MemberDTO memberDTO) {
+        MemberDTO result = memberService.save(memberDTO);
+        LoginResultDTO loginResultDTO = new LoginResultDTO();
+
+        FavoriteDTO favoriteDTO = new FavoriteDTO();
+        favoriteDTO.setUid(memberDTO.getUid());
+        List<ArtistDTO> artistDTOList = artistService.searchFavorites(favoriteDTO);
+        loginResultDTO.setMemberDTO(result);
+        loginResultDTO.setArtistDTOList(artistDTOList);
+
+        httpServletRequest.getSession().invalidate();
+        HttpSession httpSession = httpServletRequest.getSession(true);
+        httpSession.setAttribute("uid", result.getUid());
+
+        return loginResultDTO;
     }
 
     @GetMapping("/check-email")
@@ -94,21 +111,25 @@ public class MemberRestController {
 
     @PostMapping("/auth/login")
     @ResponseBody
-    public Map<String, String> login(HttpServletRequest httpServletRequest, @RequestBody MemberDTO memberDTO) {
+    public LoginResultDTO login(HttpServletRequest httpServletRequest, @RequestBody MemberDTO memberDTO) {
         MemberDTO result = memberService.login(memberDTO);
-        Map<String, String> map = new HashMap<>();
+        LoginResultDTO loginResultDTO = new LoginResultDTO();
 
         if(result == null) {
-            map.put("result", "fail");
-            return map;
+            return loginResultDTO;
         }
+
+        FavoriteDTO favoriteDTO = new FavoriteDTO();
+        favoriteDTO.setUid(result.getUid());
+        List<ArtistDTO> artistDTOList = artistService.searchFavorites(favoriteDTO);
+        loginResultDTO.setMemberDTO(result);
+        loginResultDTO.setArtistDTOList(artistDTOList);
 
         httpServletRequest.getSession().invalidate();
         HttpSession httpSession = httpServletRequest.getSession(true);
         httpSession.setAttribute("uid", result.getUid());
 
-        map.put("result", "success");
-        return map;
+        return loginResultDTO;
     }
 
     @GetMapping("/auth/logout")
