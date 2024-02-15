@@ -29,7 +29,7 @@ public class BoardService {
         log.info("save()" + postDTO.toString());
         Post post = modelMapper.map(postDTO, Post.class);
         Post result = boardRepository.save(post);
-        return modelMapper.map(result, PostDTO.class);
+        return boardRepository.selectOneSQLByPid(result.getPid());
     }
 
     public void deleteById(long pid) {
@@ -51,25 +51,20 @@ public class BoardService {
 
     public List<PostDTO> findAllByWriter(long uid) {
         log.info("findAllByWriter()" + uid);
-        List<PostDTO> list = boardRepository.findAllByWriterOrderByCreatedAtDesc(uid).stream()
-                .map(m -> modelMapper.map(m, PostDTO.class))
-                .collect(Collectors.toList());
+        List<PostDTO> list = boardRepository.findAllByWriterOrderByCreatedAtDesc(uid);
         return list;
     }
 
     public PostDTO findById(long pid) {
         log.info("findById()" + pid);
-        Optional<Post> optionalPost = boardRepository.findById(pid);
-        Post post = optionalPost.orElseThrow(NoSuchElementException::new);
-        return modelMapper.map(post, PostDTO.class);
+        PostDTO postDTO = boardRepository.selectOneSQLByPid(pid);
+        return postDTO;
     }
 
     public List<PostDTO> findAllSqlByUid(LikeDTO likeDTO) {
         log.info("findAllLikeSqlByUid()" + likeDTO.toString());
-        List<Post> list = boardRepository.selectSQLByUid(likeDTO.getUid());
-        List<PostDTO> dtoList = list.stream().map(m -> modelMapper.map(m, PostDTO.class))
-                .collect(Collectors.toList());
-        return dtoList;
+        List<PostDTO> list = boardRepository.selectSQLByUid(likeDTO.getUid());
+        return list;
     }
 
     public List<String> selectHashtagWithRankSql() {
@@ -80,25 +75,17 @@ public class BoardService {
         return list;
     }
 
-    public List<PostDTO> findByAid(List<ArtistDTO> artistDTOList) {
-        log.info("findAllByAid()" + artistDTOList.toString());
-        List<Long> aidList = new ArrayList<>();
-        for (ArtistDTO artistDTO : artistDTOList) {
-            aidList.add(artistDTO.getAid());
-        }
-
-        List<Post> list = boardRepository.findByAidInOrderByCreatedAtDesc(aidList);
-        return list.stream().map(m -> modelMapper.map(m, PostDTO.class)).collect(Collectors.toList());
+    public List<PostDTO> findByAid(List<Long> aidList) {
+        log.info("findAllByAid()" + aidList.toString());
+        List<PostDTO> list = boardRepository.selectSQLByAidInOrderByCreatedAtDesc(aidList);
+        return list;
     }
 
     public PostSearchDTO findPosts(String searchKeyword) {
         log.info("findPosts()" + searchKeyword);
-        List<Post> byHashtag = boardRepository.findByHashtagContaining(searchKeyword);
-        List<Post> byArtist = boardRepository.selectSQLByArtist(searchKeyword);
-        PostSearchDTO postSearchDTO = new PostSearchDTO(
-                byHashtag.stream().map(m -> modelMapper.map(m, PostDTO.class)).collect(Collectors.toList()),
-                byArtist.stream().map(m -> modelMapper.map(m, PostDTO.class)).collect(Collectors.toList())
-        );
+        List<PostDTO> byHashtag = boardRepository.findByHashtagContaining(searchKeyword);
+        List<PostDTO> byArtist = boardRepository.selectSQLByArtist(searchKeyword);
+        PostSearchDTO postSearchDTO = new PostSearchDTO(byHashtag, byArtist);
 
         return postSearchDTO;
     }
