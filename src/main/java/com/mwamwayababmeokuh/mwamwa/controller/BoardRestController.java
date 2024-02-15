@@ -36,7 +36,8 @@ public class BoardRestController {
     @PutMapping("/boards/posts")
     @ResponseBody
     public PostDTO update(@RequestBody PostDTO postDTO) {
-        return boardService.update(postDTO);
+        PostDTO result = boardService.update(postDTO);
+        return boardService.findById(result.getPid());
     }
 
     @GetMapping("/boards/posts/{uid}")
@@ -65,8 +66,8 @@ public class BoardRestController {
 
     @GetMapping("/boards/posts")
     @ResponseBody
-    public List<PostDTO> findByAid(@RequestBody List<ArtistDTO> artistDTOList) {
-        return boardService.findByAid(artistDTOList);
+    public List<PostDTO> findByAid(@RequestParam List<Long> aidList) {
+        return boardService.findByAid(aidList);
     }
 
     @GetMapping("/boards/search-results")
