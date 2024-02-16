@@ -1,6 +1,7 @@
 package com.mwamwayababmeokuh.mwamwa.controller;
 
 import com.mwamwayababmeokuh.mwamwa.domain.HashtagDTO;
+import com.mwamwayababmeokuh.mwamwa.domain.HashtagSearchDTO;
 import com.mwamwayababmeokuh.mwamwa.service.HashtagService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,11 @@ public class HashtagRestController {
 
     @GetMapping("/hashtags/search")
     @ResponseBody
-    public List<HashtagDTO> find(HashtagDTO hashtagDTO) {
+    public HashtagSearchDTO find(HashtagDTO hashtagDTO) {
         log.info("HashtagDTO: " + hashtagDTO.toString());
-        return hashtagService.find(hashtagDTO);
+        boolean isExist = hashtagService.findByHashtag(hashtagDTO.getHashtag());
+        List<HashtagDTO> result = hashtagService.find(hashtagDTO);
+        return new HashtagSearchDTO(isExist, result);
     }
 
     @DeleteMapping("/hashtags")

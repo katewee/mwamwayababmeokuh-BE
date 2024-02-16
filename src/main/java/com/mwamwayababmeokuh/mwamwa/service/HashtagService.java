@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,4 +42,9 @@ public class HashtagService {
         hashtagRepository.deleteById(hashtagDTO.getHid());
     }
 
+    public boolean findByHashtag(String hashtag) {
+        log.info("findByHashtag()" + hashtag);
+        Optional<Hashtag> optionalHashtag = hashtagRepository.findByHashtag(hashtag);
+        return optionalHashtag.isPresent();
+    }
 }
