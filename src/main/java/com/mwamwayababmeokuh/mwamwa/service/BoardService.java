@@ -7,14 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -67,11 +62,11 @@ public class BoardService {
         return list;
     }
 
-    public List<String> selectHashtagWithRankSql() {
+    public List<HashtagDTO> selectHashtagWithRankSql() {
         log.info("selectHashtagWithRankSql()");
-//        List<PostDTO> list = boardRepository.selectHashtagSQL().stream()
-//                .map(m -> modelMapper.map(m, PostDTO.class)).collect(Collectors.toList());
-        List<String> list = boardRepository.selectHashtagSQL();
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        log.info("date: " + yesterday.toString());
+        List<HashtagDTO> list = boardRepository.selectHashtagSQL(yesterday.toString());
         return list;
     }
 
