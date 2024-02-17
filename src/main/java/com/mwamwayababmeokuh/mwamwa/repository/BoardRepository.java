@@ -1,11 +1,13 @@
 package com.mwamwayababmeokuh.mwamwa.repository;
 
+import com.mwamwayababmeokuh.mwamwa.domain.HashtagDTO;
 import com.mwamwayababmeokuh.mwamwa.domain.Post;
 import com.mwamwayababmeokuh.mwamwa.domain.PostDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Post, Long> {
@@ -27,8 +29,12 @@ public interface BoardRepository extends JpaRepository<Post, Long> {
             "order by l.createdAt desc")
     List<PostDTO> selectSQLByUid(@Param(value = "uid") long uid);
 
-    @Query(value = "select hashtag from (select * from posts where date_format(createdAt, '%y-%m-%d') = Date_add(curdate(), interval -1 day)) as p group by hashtag order by count(*) desc limit 0, 10;", nativeQuery = true)
-    List<String> selectHashtagSQL();
+//    @Query(value = "select hashtag from (select * from posts where date_format(createdAt, '%y-%m-%d') = Date_add(curdate(), interval -1 day)) as p group by hashtag order by count(*) desc limit 0, 10;", nativeQuery = true)
+    @Query("select new com.mwamwayababmeokuh.mwamwa.domain" +
+            ".HashtagDTO(p.hashtag, count(*)) from Post p " +
+            "where date_format(p.createdAt, '%y-%m-%d') = DATE(:yesterday) " +
+            "group by p.hashtag order by count(*) desc")
+    List<HashtagDTO> selectHashtagSQL(@Param(value = "yesterday") String yesterday);
 
     @Query("select new com.mwamwayababmeokuh.mwamwa.domain" +
             ".PostDTO(p.pid, p.aid, a.name, p.hashtag, p.content, p.lat, p.lng, p.writer, m.nickname, p.createdAt) " +

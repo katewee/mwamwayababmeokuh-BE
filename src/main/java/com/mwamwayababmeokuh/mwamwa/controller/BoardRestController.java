@@ -60,7 +60,7 @@ public class BoardRestController {
 
     @GetMapping("/boards/rankings")
     @ResponseBody
-    public List<String> rankHashtag() {
+    public List<HashtagDTO> rankHashtag() {
         return boardService.selectHashtagWithRankSql();
     }
 
