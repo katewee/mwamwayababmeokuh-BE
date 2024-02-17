@@ -1,9 +1,6 @@
 package com.mwamwayababmeokuh.mwamwa.service;
 
-import com.mwamwayababmeokuh.mwamwa.domain.Artist;
-import com.mwamwayababmeokuh.mwamwa.domain.ArtistDTO;
-import com.mwamwayababmeokuh.mwamwa.domain.Favorite;
-import com.mwamwayababmeokuh.mwamwa.domain.FavoriteDTO;
+import com.mwamwayababmeokuh.mwamwa.domain.*;
 import com.mwamwayababmeokuh.mwamwa.repository.ArtistRepository;
 import com.mwamwayababmeokuh.mwamwa.repository.FavoriteRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,5 +67,33 @@ public class ArtistService {
         List<ArtistDTO> list = artistRepository.selectSQLByUid(favoriteDTO.getUid()).stream()
                 .map(m -> modelMapper.map(m, ArtistDTO.class)).collect(Collectors.toList());
         return list;
+    }
+
+    public List<ArtistDTO> updateFavorites(FavoriteInsertDTO favoriteInsertDTO) {
+        log.info("updateFavorites()" + favoriteInsertDTO.toString());
+        long uid = favoriteInsertDTO.getUid();
+        List<Long> newList = favoriteInsertDTO.getAid();
+        List<Long> oldList = new ArrayList<>();
+
+        FavoriteDTO favoriteDTO = new FavoriteDTO();
+        favoriteDTO.setUid(uid);
+        List<ArtistDTO> artistDTOS = searchFavorites(favoriteDTO);
+        for(ArtistDTO artistDTO : artistDTOS) {
+            oldList.add(artistDTO.getAid());
+        }
+
+        List<Long> oldNoneMatchList = oldList.stream().filter(o -> newList.stream()
+                .noneMatch(Predicate.isEqual(o))).collect(Collectors.toList());
+        List<Long> newNoneMatchList = newList.stream().filter(n -> oldList.stream()
+                .noneMatch(Predicate.isEqual(n))).collect(Collectors.toList());
+
+        List<FavoriteDTO> favoriteDTOS = new ArrayList<>();
+        for(Long aid : newNoneMatchList) {
+            favoriteDTOS.add(new FavoriteDTO(uid, aid));
+        }
+
+        favoriteRepository.deleteAllByUidAndAid(uid, oldNoneMatchList);
+        saveFavorites(favoriteDTOS);
+        return searchFavorites(favoriteDTO);
     }
 }
