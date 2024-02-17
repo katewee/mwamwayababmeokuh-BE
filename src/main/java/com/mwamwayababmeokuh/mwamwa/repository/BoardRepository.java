@@ -3,6 +3,7 @@ package com.mwamwayababmeokuh.mwamwa.repository;
 import com.mwamwayababmeokuh.mwamwa.domain.HashtagDTO;
 import com.mwamwayababmeokuh.mwamwa.domain.Post;
 import com.mwamwayababmeokuh.mwamwa.domain.PostDTO;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -34,7 +35,7 @@ public interface BoardRepository extends JpaRepository<Post, Long> {
             ".HashtagDTO(p.hashtag, count(*)) from Post p " +
             "where date_format(p.createdAt, '%y-%m-%d') = DATE(:yesterday) " +
             "group by p.hashtag order by count(*) desc")
-    List<HashtagDTO> selectHashtagSQL(@Param(value = "yesterday") String yesterday);
+    List<HashtagDTO> selectHashtagSQL(@Param(value = "yesterday") String yesterday, Pageable pageable);
 
     @Query("select new com.mwamwayababmeokuh.mwamwa.domain" +
             ".PostDTO(p.pid, p.aid, a.name, p.hashtag, p.content, p.lat, p.lng, p.writer, m.nickname, p.createdAt) " +
