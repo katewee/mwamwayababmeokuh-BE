@@ -3,11 +3,13 @@ package com.mwamwayababmeokuh.mwamwa.controller;
 import com.mwamwayababmeokuh.mwamwa.domain.Artist;
 import com.mwamwayababmeokuh.mwamwa.domain.ArtistDTO;
 import com.mwamwayababmeokuh.mwamwa.domain.FavoriteDTO;
+import com.mwamwayababmeokuh.mwamwa.domain.FavoriteInsertDTO;
 import com.mwamwayababmeokuh.mwamwa.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +40,11 @@ public class ArtistRestController {
 
     @PostMapping("/artists/favorites")
     @ResponseBody
-    public List<FavoriteDTO> saveFavorites(@RequestBody List<FavoriteDTO> favoriteDTOS) {
+    public List<FavoriteDTO> saveFavorites(@RequestBody FavoriteInsertDTO favoriteInsertDTO) {
+        List<FavoriteDTO> favoriteDTOS = new ArrayList<>();
+        for(long id : favoriteInsertDTO.getAid()) {
+            favoriteDTOS.add(new FavoriteDTO(favoriteInsertDTO.getUid(), id));
+        }
         return artistService.saveFavorites(favoriteDTOS);
     }
 
