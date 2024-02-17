@@ -59,16 +59,32 @@ public class MemberRestController {
 
     @GetMapping("/users/{uid}")
     @ResponseBody
-    public MemberDTO findOne(@PathVariable String uid) {
+    public LoginResultDTO findOne(@PathVariable String uid) {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setUid(Long.parseLong(uid));
-        return memberService.findById(memberDTO);
+        MemberDTO result = memberService.findById(memberDTO);
+        LoginResultDTO loginResultDTO = new LoginResultDTO();
+
+        FavoriteDTO favoriteDTO = new FavoriteDTO();
+        favoriteDTO.setUid(result.getUid());
+        List<ArtistDTO> artistDTOList = artistService.searchFavorites(favoriteDTO);
+        loginResultDTO.setMemberDTO(result);
+        loginResultDTO.setArtistDTOList(artistDTOList);
+
+        return loginResultDTO;
     }
 
     @PutMapping("/users/{uid}")
     @ResponseBody
-    public MemberDTO update(@PathVariable String uid, @RequestBody MemberDTO memberDTO) {
-        return memberService.updateMember(memberDTO);
+    public LoginResultDTO update(@PathVariable String uid, @RequestBody MemberDTO memberDTO) {
+        LoginResultDTO loginResultDTO = new LoginResultDTO();
+        MemberDTO result = memberService.updateMember(memberDTO);
+        FavoriteInsertDTO favoriteInsertDTO = new FavoriteInsertDTO(memberDTO.getUid(), memberDTO.getAid());
+        List<ArtistDTO> artistDTOList = artistService.updateFavorites(favoriteInsertDTO);
+        loginResultDTO.setMemberDTO(result);
+        loginResultDTO.setArtistDTOList(artistDTOList);
+
+        return loginResultDTO;
     }
 
     @DeleteMapping("/users/{uid}")
@@ -114,10 +130,6 @@ public class MemberRestController {
     public LoginResultDTO login(HttpServletRequest httpServletRequest, @RequestBody MemberDTO memberDTO) {
         MemberDTO result = memberService.login(memberDTO);
         LoginResultDTO loginResultDTO = new LoginResultDTO();
-
-        if(result == null) {
-            return loginResultDTO;
-        }
 
         FavoriteDTO favoriteDTO = new FavoriteDTO();
         favoriteDTO.setUid(result.getUid());
