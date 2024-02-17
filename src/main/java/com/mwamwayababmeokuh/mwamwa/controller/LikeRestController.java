@@ -33,16 +33,16 @@ public class LikeRestController {
 
     @GetMapping("/boards/posts/like")
     @ResponseBody
-    public Map<String, String> findLike(LikeDTO likeDTO) {
-        Map<String, String> map = new HashMap<>();
+    public Map<String, Boolean> findLike(LikeDTO likeDTO) {
+        Map<String, Boolean> map = new HashMap<>();
         try {
             LikeDTO likeDTO1 = likeService.findByUidAndPid(likeDTO);
         }catch (NoSuchElementException e) {
-            map.put("result", "not exist");
+            map.put("isLiked", false);
             return map;
         }
 
-        map.put("result", "exist");
+        map.put("isLiked", true);
         return map;
     }
 
