@@ -13,4 +13,8 @@ public class FavoriteDTO {
     private long uid;
     private long aid;
 
+    public FavoriteDTO(long uid, long aid) {
+        this.uid = uid;
+        this.aid = aid;
+    }
 }
