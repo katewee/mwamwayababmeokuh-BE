@@ -5,6 +5,7 @@ import com.mwamwayababmeokuh.mwamwa.repository.BoardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,7 +67,7 @@ public class BoardService {
         log.info("selectHashtagWithRankSql()");
         LocalDate yesterday = LocalDate.now().minusDays(1);
         log.info("date: " + yesterday.toString());
-        List<HashtagDTO> list = boardRepository.selectHashtagSQL(yesterday.toString());
+        List<HashtagDTO> list = boardRepository.selectHashtagSQL(yesterday.toString(), PageRequest.of(0, 10));
         return list;
     }
 
