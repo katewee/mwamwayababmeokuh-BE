@@ -40,7 +40,7 @@
 
 |                                                 ![Frontend](https://img.shields.io/badge/-Frontend-green)                                                 |            ![Backend](https://img.shields.io/badge/-Backend-orange)             |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------: |
-| <img src="https://github.com/FRONTENDSCHOOL7/final-11-10Duck/assets/94788360/0c3117db-a3ac-444d-affe-de54802b978a" width="120px;" height="120px" alt=""/> | <img src="./src/assets/docs/위서영.jpeg" width="120px;" height="120px" alt=""/> |
+| <img src="https://github.com/FRONTENDSCHOOL7/final-11-10Duck/assets/94788360/0c3117db-a3ac-444d-affe-de54802b978a" width="120px;" height="120px" alt=""/> | <img src="https://github.com/katewee/mwamwayababmeokuh-FE/blob/main/src/assets/docs/%EC%9C%84%EC%84%9C%EC%98%81.jpeg" width="120px;" height="120px" alt=""/> |
 |                                                          [🐈‍⬛서주예](https://github.com/samweol)                                                           |                     [🐅위서영](https://github.com/katewee)                      |
 
 </div>
@@ -62,12 +62,12 @@
 ### 3-2 개발 및 협업
 
 - 게더타운에서 회의 및 개발 진행
-  <img src="./src/assets/docs/gather.png" />
+  <img src="https://github.com/katewee/mwamwayababmeokuh-FE/blob/main/src/assets/docs/gather.png" />
 - 노션으로 프로젝트 관리
-  <img src="./src/assets/docs/front.png" />
-  <img src="./src/assets/docs/back.png" />
+  <img src="https://github.com/katewee/mwamwayababmeokuh-FE/blob/main/src/assets/docs/front.png" />
+  <img src="https://github.com/katewee/mwamwayababmeokuh-FE/blob/main/src/assets/docs/back.png" />
 - 노션으로 문서 관리
-  <img src="./src/assets/docs/docs.png" />
+  <img src="https://github.com/katewee/mwamwayababmeokuh-FE/blob/main/src/assets/docs/docs.png" />
 
 ## 4. 기술스택
 
