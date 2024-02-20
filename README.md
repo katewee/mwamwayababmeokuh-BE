@@ -1,10 +1,10 @@
 <div align="center">
-    <img src="./src/assets/logo/main.png" width="30px" />
+    <img src="https://github.com/katewee/mwamwayababmeokuh-FE/blob/main/src/assets/logo/main.png" width="30px" />
     <h1>#뫄뫄야_밥먹어</h1>
 </div>
 
 <div align="center">
-<img src="./src//assets//docs/mainImage.png" />
+<img src="https://github.com/katewee/mwamwayababmeokuh-FE/blob/main/src/assets/docs/mainImage.png" />
 좋아하는 아티스트에게 <strong>해시태그</strong>를 사용해 맛집을 공유하세요.
 </div>
 
